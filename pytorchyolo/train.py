@@ -12,6 +12,7 @@ import torch.optim as optim
 
 import sys
 sys.path.append("/home/sunjb/object_detection/PyTorch-YOLOv3/")
+
 from pytorchyolo.models import load_model
 from pytorchyolo.utils.logger import Logger
 from pytorchyolo.utils.utils import to_cpu, load_classes, print_environment_info, provide_determinism, worker_seed_set
@@ -43,11 +44,13 @@ def _create_data_loader(img_path, batch_size, img_size, n_cpu, multiscale_traini
     :return: Returns DataLoader
     :rtype: DataLoader
     """
+    
     dataset = ListDataset(
         img_path,
         img_size=img_size,
         multiscale=multiscale_training,
         transform=AUGMENTATION_TRANSFORMS)
+    
     dataloader = DataLoader(
         dataset,
         batch_size=batch_size,
@@ -56,6 +59,7 @@ def _create_data_loader(img_path, batch_size, img_size, n_cpu, multiscale_traini
         pin_memory=True,
         collate_fn=dataset.collate_fn,
         worker_init_fn=worker_seed_set)
+    
     return dataloader
 
 
@@ -68,7 +72,8 @@ def run():
     parser.add_argument("-e", "--epochs", type=int, default=300, help="Number of epochs")
     parser.add_argument("-v", "--verbose", action='store_true', help="Makes the training more verbose")
     parser.add_argument("--n_cpu", type=int, default=2, help="Number of cpu threads to use during batch generation")
-    parser.add_argument("--pretrained_weights", type=str, help="Path to checkpoint file (.weights or .pth). Starts training from checkpoint model")
+    # parser.add_argument("--pretrained_weights", type=str, help="Path to checkpoint file (.weights or .pth). Starts training from checkpoint model")
+    parser.add_argument("--pretrained_weights", type=str, help="/home/sunjb/object_detection/PyTorch-YOLOv3/weights/darknet53.conv.74")
     parser.add_argument("--checkpoint_interval", type=int, default=1, help="Interval of epochs between saving model weights")
     parser.add_argument("--evaluation_interval", type=int, default=1, help="Interval of epochs between evaluations on validation set")
     parser.add_argument("--multiscale_training", action="store_true", help="Allow multi-scale training")

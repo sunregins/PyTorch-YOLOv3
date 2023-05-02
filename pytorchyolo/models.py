@@ -37,6 +37,7 @@ def create_modules(module_defs: List[dict]) -> Tuple[dict, nn.ModuleList]:
         'lr_steps': list(zip(map(int,   hyperparams["steps"].split(",")),
                              map(float, hyperparams["scales"].split(","))))
     })
+    
     assert hyperparams["height"] == hyperparams["width"], \
         "Height and width should be equal! Non square images are padded with zeros."
     output_filters = [hyperparams["channels"]]
@@ -327,8 +328,10 @@ def load_model(model_path, weights_path=None):
     :return: Returns model
     :rtype: Darknet
     """
+    
     device = torch.device("cuda" if torch.cuda.is_available()
                           else "cpu")  # Select device for inference
+    
     model = Darknet(model_path).to(device)
 
     model.apply(weights_init_normal)
